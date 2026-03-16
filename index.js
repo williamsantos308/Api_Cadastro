@@ -29,6 +29,8 @@ function salvarClientes(clientes) {
    fs.writeFileSync(clientesFile, JSON.stringify(clientes, null, 2), 'utf-8' );
 }
 
+
+
 app.post('/clientes', (req, res) => {
     const { cpf, nome, idade, endereco, bairro, contato } = req.body;
 
@@ -37,7 +39,7 @@ app.post('/clientes', (req, res) => {
     }
 
     const clientes = lerClientes();
-    
+
     if(clientes.some(c => c.cpf === cpf)){
         return res.status(400).json({ message: 'CPF já cadastrado' });
     }
@@ -49,6 +51,10 @@ app.post('/clientes', (req, res) => {
    res.status(201).json({ message: 'Cliente cadastrado com sucesso', cliente: novoCliente });
 });
 
+app.get('/clientes', (req, res) => {
+    const clientes = lerClientes();
+    res.status(200).json(clientes);
+});
 
 app.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);
