@@ -10,5 +10,17 @@
     "nome": "Toyota",
     "valor": 50000,
     "descricao": "camionete"
+  },
+  {
+    "id": 3,
+    "nome": "Toyota",
+    "valor": 50000,
+    "descricao": "camionete"
+  },
+  {
+    "id": 4,
+    "nome": "Produto 4",
+    "valor": 10,
+    "descricao": "sei la"
   }
 ]
