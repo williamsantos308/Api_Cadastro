@@ -1,6 +1,10 @@
-const express = require('express'); // servidor web
-const fs = require('fs'); // manipulação de arquivos
-const path = require('path'); // manipulação de caminhos
+import express from 'express'; // servidor web
+import fs from 'fs'; // manipulação de arquivos
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express(); // criação do servidor
 const PORT = 3000; // porta do servidor
@@ -51,9 +55,61 @@ app.post('/clientes', (req, res) => {
    res.status(201).json({ message: 'Cliente cadastrado com sucesso', cliente: novoCliente });
 });
 
+
 app.get('/clientes', (req, res) => {
     const clientes = lerClientes();
     res.status(200).json(clientes);
+});
+
+/*
+PRODUTOS ENDPOINTS
+*/
+
+const produtosFile = path.join(__dirname, "produtos.json");
+
+function lerProdutos() {
+   if(!fs.existsSync(produtosFile)){
+    return [];
+   }
+
+   const dados = fs.readFileSync(produtosFile, 'utf-8');
+
+   try{
+    return JSON.parse(dados);
+   }catch(e){
+    return [];
+   }
+}
+
+function salvarProdutos(produtos) {
+   fs.writeFileSync(produtosFile, JSON.stringify(produtos, null, 2), 'utf-8' );
+}
+
+
+
+app.post('/produtos', (req, res) => {
+    const { id, nome, valor, descricao } = req.body;
+
+    if(!id || !nome || !valor || !descricao) {
+        return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
+    }
+
+    const produtos = lerProdutos();
+
+    if(produtos.some(p => p.id === id)){
+        return res.status(400).json({ message: 'ID já cadastrado' });
+    }
+
+   const novoProduto = { id, nome, valor, descricao };
+   produtos.push(novoProduto);
+   salvarProdutos(produtos);
+   
+   res.status(201).json({ message: 'Produto cadastrado com sucesso', produto: novoProduto });
+});
+
+app.get('/produtos', (req, res) => {
+    const produtos = lerProdutos();
+    res.status(200).json(produtos);
 });
 
 app.listen(PORT, () => {
