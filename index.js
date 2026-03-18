@@ -61,6 +61,19 @@ app.get('/clientes', (req, res) => {
     res.status(200).json(clientes);
 });
 
+app.get('/clientes/:cpf', (req, res) => {
+    const { cpf } = req.params;
+    const clientes = lerClientes();
+    
+    const cliente = clientes.find(c => c.cpf === cpf);
+    
+    if (!cliente) {
+        return res.status(404).json({ message: 'Cliente não encontrado' });
+    }
+    
+    res.status(200).json(cliente);
+});
+
 /*
 PRODUTOS ENDPOINTS
 */
@@ -110,6 +123,19 @@ app.post('/produtos', (req, res) => {
 app.get('/produtos', (req, res) => {
     const produtos = lerProdutos();
     res.status(200).json(produtos);
+});
+
+app.get('/produtos/:id', (req, res) => {
+    const { id } = req.params;
+    const produtos = lerProdutos();
+    
+    const produto = produtos.find(p => p.id == id);
+    
+    if (!produto) {
+        return res.status(404).json({ message: 'Produto não encontrado' });
+    }
+    
+    res.status(200).json(produto);
 });
 
 app.listen(PORT, () => {
