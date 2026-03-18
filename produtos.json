@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "nome": "Produto 1",
+    "valor": 10,
+    "descricao": "Descrição do produto 1"
+  },
+  {
+    "id": 2,
+    "nome": "Toyota",
+    "valor": 50000,
+    "descricao": "camionete"
+  }
+]

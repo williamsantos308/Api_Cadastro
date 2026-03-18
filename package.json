@@ -1,4 +1,14 @@
 {
+  "$schema": "https://json.schemastore.org/package",
+  "name": "api-cadastro",
+  "version": "1.0.0",
+  "description": "API de cadastro de clientes e produtos",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
   "dependencies": {
     "express": "^5.2.1"
   }
